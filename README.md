@@ -25,7 +25,7 @@ Things you may want to cover:
 
 # テーブル設計
 
-## user テーブル
+## User テーブル
 | Column             | Type   | Options                   |
 | ------------------ | ------ | ------------------------- |
 | name               | string | null: false               |
@@ -37,10 +37,10 @@ Things you may want to cover:
 
 ### Association
 
-- has_many :posts
+- has_many :dishes
 - has_many :likes
 
-## dish テーブル
+## Dish テーブル
 | Column           | Type       | Options                        |
 | ---------------- | ---------- | ------------------------------ |
 | name             | string     | null: false                    |
@@ -56,7 +56,7 @@ Things you may want to cover:
 - belongs_to :user
 - belongs_to :dish
 
-## Favorite テーブル
+## Likes テーブル
 | Column  | Type       | Options                        |
 | ------- | ---------- | ------------------------------ |
 | user    | references | null: false, foreign_key: true |
