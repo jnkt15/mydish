@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Users", type: :system do
   let!(:user) { create(:user) }
-  
+
   describe "ユーザー登録ページ" do
     before do
       visit signup_path
