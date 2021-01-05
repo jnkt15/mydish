@@ -15,7 +15,7 @@ RSpec.describe "お料理登録", type: :request do
         expect(response).to redirect_to new_dish_url
       end
     end
-    
+
     it "有効な料理データで登録できること" do
       expect {
         post dishes_path, params: { dish: { name: "イカの塩焼き",
@@ -27,7 +27,7 @@ RSpec.describe "お料理登録", type: :request do
                                             popularity: 5 } }
       }.to change(Dish, :count).by(1)
       follow_redirect!
-      expect(response).to render_template('dishes/show') 
+      expect(response).to render_template('dishes/show')
     end
 
     it "無効な料理データでは登録できないこと" do

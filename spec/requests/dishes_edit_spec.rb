@@ -4,6 +4,7 @@ RSpec.describe "料理編集", type: :request do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
   let!(:dish) { create(:dish, user: user) }
+
   context "認可されたユーザーの場合" do
     it "レスポンスが正常に表示されること(+フレンドリーフォワーディング)" do
       get edit_dish_path(dish)
