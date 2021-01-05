@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Users", type: :system do
   let!(:user) { create(:user) }
-  let!(:admin_user) { create(:user, :admin) } 
+  let!(:admin_user) { create(:user, :admin) }
 
   describe "ユーザー一覧ページ" do
     context "管理者ユーザーの場合" do
@@ -35,7 +35,7 @@ RSpec.describe "Users", type: :system do
       end
     end
   end
-  
+
   describe "ユーザー登録ページ" do
     before do
       visit signup_path
