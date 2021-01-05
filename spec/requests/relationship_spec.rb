@@ -38,7 +38,6 @@ RSpec.describe "ユーザーフォロー機能", type: :request do
     end
   end
 
-
   context "ログインしていない場合" do
     it "followingページへ飛ぶとログインページへリダイレクトすること" do
       get following_user_path(user)
