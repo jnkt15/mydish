@@ -109,7 +109,7 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_button 'フォローする'
       end
     end
-    
+
     context "お気に入り登録/解除" do
       before do
         login_for_system(user)
