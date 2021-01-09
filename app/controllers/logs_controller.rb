@@ -5,7 +5,7 @@ class LogsController < ApplicationController
     @dish = Dish.find(params[:dish_id])
     @log = @dish.logs.build(content: params[:log][:content])
     @log.save
-    flash[:success] = "クックログを追加しました！"
+    flash[:success] = "ログを追加しました！"
     redirect_to dish_path(@dish)
   end
 
@@ -14,7 +14,7 @@ class LogsController < ApplicationController
     @dish = @log.dish
     if current_user == @dish.user
       @log.destroy
-      flash[:success] = "クックログを削除しました"
+      flash[:success] = "ログを削除しました"
     end
     redirect_to dish_url(@dish)
   end
