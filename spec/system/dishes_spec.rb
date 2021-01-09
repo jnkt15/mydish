@@ -5,6 +5,7 @@ RSpec.describe "Dishes", type: :system do
   let!(:other_user) { create(:user) }
   let!(:dish) { create(:dish, :picture, user: user) }
   let!(:comment) { create(:comment, user_id: user.id, dish: dish) }
+  let!(:log) { create(:log, dish: dish) }
 
   describe "料理登録ページ" do
     before do
@@ -156,6 +157,28 @@ RSpec.describe "Dishes", type: :system do
           expect(page).to have_selector 'span', text: user.name
           expect(page).to have_selector 'span', text: comment.content
           expect(page).not_to have_link '削除', href: dish_path(dish)
+        end
+      end
+    end
+
+    context "ログ登録＆削除" do
+      context "料理詳細ページから" do
+        it "別ユーザーの料理ログにはログ登録フォームが無いこと" do
+          login_for_system(other_user)
+          visit dish_path(dish)
+          expect(page).not_to have_button "作る"
+        end
+      end
+
+      context "トップページから" do
+        it "別ユーザーの料理にはログ登録フォームがないこと" do
+          create(:dish, user: other_user)
+          login_for_system(user)
+          user.follow(other_user)
+          visit root_path
+          within find("#dish-#{Dish.first.id}") do
+            expect(page).not_to have_button "作る"
+          end
         end
       end
     end
