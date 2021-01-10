@@ -92,6 +92,10 @@ input {
   margin-top: 20px;
 }
 
+.account-delete {
+  margin-top: 20px;
+}
+
 //// ユーザー一覧ページ ////
 .users {
   list-style: none;
@@ -356,6 +360,17 @@ a.list, a.unlist {
 }
 
 //// ページボディ部 ////
+#fh5co -portfolio {
+  padding: 0;
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  h3 {
+    text-align: left;
+  }
+}
+
 #fh5co -about {
   padding: 0;
 }
