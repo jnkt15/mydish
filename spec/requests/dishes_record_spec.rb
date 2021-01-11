@@ -32,7 +32,8 @@ RSpec.describe "お料理登録", type: :request do
                                               picture: picture,
                                               ingredients_attributes: [
                                                 name: "じゃがいも",
-                                                quantity: "2個"] } }
+                                                quantity: "2個",
+                                              ] } }
         }.to change(Dish, :count).by(1)
         redirect_to Dish.first
         follow_redirect!
@@ -44,7 +45,8 @@ RSpec.describe "お料理登録", type: :request do
           post dishes_path, params: { dish: { name: "イカの塩焼き",
                                               ingredients_attributes: [
                                                 name: "じゃがいも",
-                                                quantity: "2個"] } }
+                                                quantity: "2個",
+                                              ] } }
         }.to change(Ingredient, :count).by(1)
       end
 
@@ -60,7 +62,8 @@ RSpec.describe "お料理登録", type: :request do
                                               picture: picture,
                                               ingredients_attributes: [
                                                 name: "じゃがいも",
-                                                quantity: "2個"] } }
+                                                quantity: "2個",
+                                              ] } }
         }.not_to change(Dish, :count)
         expect(response).to render_template('dishes/new')
       end
@@ -71,7 +74,7 @@ RSpec.describe "お料理登録", type: :request do
         expect {
           post dishes_path, params: { dish: { name: "イカの塩焼き" } }
         }.to change(Dish, :count).by(1)
-     end
+      end
 
       it "材料のデータは増えないこと" do
         expect {

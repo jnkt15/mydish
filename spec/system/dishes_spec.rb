@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Dishes", type: :system do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
-  let!(:dish) { create(:dish, :picture, user: user) }
+  let!(:dish) { create(:dish, :picture, :ingredients, user: user) }
   let!(:comment) { create(:comment, user_id: user.id, dish: dish) }
   let!(:log) { create(:log, dish: dish) }
 
@@ -119,10 +119,21 @@ RSpec.describe "Dishes", type: :system do
         expect(page).to have_content '料理名'
         expect(page).to have_content '説明'
         expect(page).to have_content '分量 [人分]'
+        expect(page).to have_css 'p.title-ingredient-name', text: '材料（10種類まで登録可）', count: 1
+        expect(page).to have_css 'p.title-ingredient-quantity', text: '量', count: 1
         expect(page).to have_content 'コツ・ポイント'
         expect(page).to have_content '作り方参照用URL'
         expect(page).to have_content '所要時間 [分]'
         expect(page).to have_content '人気度 [1~5]'
+      end
+
+      it "画像アップロード部分が表示されること" do
+        expect(page).to have_css 'input[type=file]'
+      end
+
+      it "材料入力部分が10行表示されること" do
+        expect(page).to have_css 'input.ingredient_name', count: 10
+        expect(page).to have_css 'input.ingredient_quantity', count: 10
       end
     end
 
@@ -135,6 +146,8 @@ RSpec.describe "Dishes", type: :system do
         fill_in "作り方参照用URL", with: "henshu-https://cookpad.com/recipe/2798655"
         fill_in "所要時間", with: 60
         fill_in "人気度", with: 1
+        fill_in "dish[ingredients_attributes][0][name]", with: "編集-豆腐"
+        fill_in "dish[ingredients_attributes][0][quantity]", with: "編集-2個"
         attach_file "dish[picture]", "#{Rails.root}/spec/fixtures/test_dish2.jpg"
         click_button "更新する"
         expect(page).to have_content "料理情報が更新されました！"
@@ -145,6 +158,8 @@ RSpec.describe "Dishes", type: :system do
         expect(dish.reload.reference).to eq "henshu-https://cookpad.com/recipe/2798655"
         expect(dish.reload.required_time).to eq 60
         expect(dish.reload.popularity).to eq 1
+        expect(dish.reload.ingredients.first.name).to eq "編集-豆腐"
+        expect(dish.reload.ingredients.first.quantity).to eq "編集-2個"
         expect(dish.reload.picture.url).to include "test_dish2.jpg"
       end
 
@@ -211,7 +226,7 @@ RSpec.describe "Dishes", type: :system do
           login_for_system(user)
           visit root_path
         end
-  
+
         it "ログイン後の各ページに検索窓が表示されていること" do
           expect(page).to have_css 'form#dish_search'
           visit about_path
@@ -237,13 +252,13 @@ RSpec.describe "Dishes", type: :system do
           visit edit_dish_path(dish)
           expect(page).to have_css 'form#dish_search'
         end
-  
+
         it "フィードの中から検索ワードに該当する結果が表示されること" do
           create(:dish, name: 'かに玉', user: user)
           create(:dish, name: 'かに鍋', user: other_user)
           create(:dish, name: '野菜炒め', user: user)
           create(:dish, name: '野菜カレー', user: other_user)
-  
+
           # 誰もフォローしない場合
           fill_in 'q_name_cont', with: 'かに'
           click_button '検索'
@@ -257,7 +272,7 @@ RSpec.describe "Dishes", type: :system do
           within find('.dishes') do
             expect(page).to have_css 'li', count: 1
           end
-  
+
           # other_userをフォローする場合
           user.follow(other_user)
           fill_in 'q_name_cont', with: 'かに'
@@ -273,7 +288,7 @@ RSpec.describe "Dishes", type: :system do
             expect(page).to have_css 'li', count: 2
           end
         end
-  
+
         it "検索ワードを入れずに検索ボタンを押した場合、料理一覧が表示されること" do
           fill_in 'q_name_cont', with: ''
           click_button '検索'
