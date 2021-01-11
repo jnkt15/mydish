@@ -256,51 +256,6 @@ RSpec.describe "Dishes", type: :system do
           visit edit_dish_path(dish)
           expect(page).to have_css 'form#dish_search'
         end
-
-        it "フィードの中から検索ワードに該当する結果が表示されること" do
-          create(:dish, name: 'かに玉', user: user)
-          create(:dish, name: 'かに鍋', user: other_user)
-          create(:dish, name: '野菜炒め', user: user)
-          create(:dish, name: '野菜カレー', user: other_user)
-
-          # 誰もフォローしない場合
-          fill_in 'q_name_cont', with: 'かに'
-          click_button '検索'
-          expect(page).to have_css 'h3', text: "”かに”の検索結果：1件"
-          within find('.dishes') do
-            expect(page).to have_css 'li', count: 1
-          end
-          fill_in 'q_name_cont', with: '野菜'
-          click_button '検索'
-          expect(page).to have_css 'h3', text: "”野菜”の検索結果：1件"
-          within find('.dishes') do
-            expect(page).to have_css 'li', count: 1
-          end
-
-          # other_userをフォローする場合
-          user.follow(other_user)
-          fill_in 'q_name_cont', with: 'かに'
-          click_button '検索'
-          expect(page).to have_css 'h3', text: "”かに”の検索結果：2件"
-          within find('.dishes') do
-            expect(page).to have_css 'li', count: 2
-          end
-          fill_in 'q_name_cont', with: '野菜'
-          click_button '検索'
-          expect(page).to have_css 'h3', text: "”野菜”の検索結果：2件"
-          within find('.dishes') do
-            expect(page).to have_css 'li', count: 2
-          end
-        end
-
-        it "検索ワードを入れずに検索ボタンを押した場合、料理一覧が表示されること" do
-          fill_in 'q_name_cont', with: ''
-          click_button '検索'
-          expect(page).to have_css 'h3', text: "料理一覧"
-          within find('.dishes') do
-            expect(page).to have_css 'li', count: Dish.count
-          end
-        end
       end
     end
   end
