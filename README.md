@@ -11,6 +11,7 @@
 作った料理を登録して、自分だけの料理レパートリーを作ることができます。
 「今日は何作ろう？」と迷ったら、次に作る料理を「お気に入り」や「作る予定リスト」から選んだり、使いたい材料を元に検索して探したりすることができます。
 
+
 # 🌐  App URL
 ### **https://mydish-123.herokuapp.com/** 
 
@@ -54,7 +55,16 @@
   [![Image from Gyazo](https://i.gyazo.com/537d14e3c0114649387dfe3625aab1d7.gif)](https://gyazo.com/537d14e3c0114649387dfe3625aab1d7)
 
 
-* ...
+# 🚜 開発環境
+
+- VScode
+- Ruby 2.6.5
+- Rails 6.0.3.4
+- mysql2 0.5.3
+- JavaScript
+- gem 3.0.3
+- heroku 7.46.0
+
 
 # テーブル設計
 
